@@ -8,12 +8,13 @@ namespace itTrend.Models
 {
     public class Student
     {
-        public string ID { get; set; }
-        public int StudentID { get; set; }
-        public string FullName { get; set; }
-        public string Phone { get; set; }
+        public int ID { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Patronomic { get; set; }
+        public string PhoneNumber { get; set; }
         public string Photo { get; set; }
 
-        public ICollection<Group> Groups { get; set; }
+        public Group Group { get; set; }
     }
 }

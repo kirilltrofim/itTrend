@@ -9,5 +9,8 @@ namespace itTrend.Models
     public class Course
     {
         public int ID { get; set; }
+        public int Number { get; set; }
+
+        public ICollection<Group> Group { get; set; }
     }
 }

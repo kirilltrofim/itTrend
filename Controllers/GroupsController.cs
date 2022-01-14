@@ -22,12 +22,11 @@ namespace itTrend.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            var context = _context.Groups.Include(@ => @.Course);
-            return View(await context.ToListAsync());
+            return View(await _context.Groups.ToListAsync());
         }
 
         // GET: Groups/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -35,7 +34,6 @@ namespace itTrend.Controllers
             }
 
             var @group = await _context.Groups
-                .Include(@ => @.Course)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (@group == null)
             {
@@ -48,7 +46,6 @@ namespace itTrend.Controllers
         // GET: Groups/Create
         public IActionResult Create()
         {
-            ViewData["CourseID"] = new SelectList(_context.Courses, "ID", "ID");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CourseID,Number,StartYear,Specialization,FullNameID")] Group @group)
+        public async Task<IActionResult> Create([Bind("ID,Number,StartYear,specialization,Educator,Course")] Group @group)
         {
             if (ModelState.IsValid)
             {
@@ -65,12 +62,11 @@ namespace itTrend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseID"] = new SelectList(_context.Courses, "ID", "ID", @group.CourseID);
             return View(@group);
         }
 
         // GET: Groups/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -82,7 +78,6 @@ namespace itTrend.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseID"] = new SelectList(_context.Courses, "ID", "ID", @group.CourseID);
             return View(@group);
         }
 
@@ -91,7 +86,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,CourseID,Number,StartYear,Specialization,FullNameID")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Number,StartYear,specialization,Educator,Course")] Group @group)
         {
             if (id != @group.ID)
             {
@@ -118,12 +113,11 @@ namespace itTrend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseID"] = new SelectList(_context.Courses, "ID", "ID", @group.CourseID);
             return View(@group);
         }
 
         // GET: Groups/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -131,7 +125,6 @@ namespace itTrend.Controllers
             }
 
             var @group = await _context.Groups
-                .Include(@ => @.Course)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (@group == null)
             {
@@ -144,7 +137,7 @@ namespace itTrend.Controllers
         // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @group = await _context.Groups.FindAsync(id);
             _context.Groups.Remove(@group);
@@ -152,7 +145,7 @@ namespace itTrend.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GroupExists(string id)
+        private bool GroupExists(int id)
         {
             return _context.Groups.Any(e => e.ID == id);
         }

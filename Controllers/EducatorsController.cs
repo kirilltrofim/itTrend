@@ -22,12 +22,11 @@ namespace itTrend.Controllers
         // GET: Educators
         public async Task<IActionResult> Index()
         {
-            var context = _context.Educators.Include(e => e.Subjects);
-            return View(await context.ToListAsync());
+            return View(await _context.Educators.ToListAsync());
         }
 
         // GET: Educators/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -35,8 +34,7 @@ namespace itTrend.Controllers
             }
 
             var educator = await _context.Educators
-                .Include(e => e.Subjects)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.GroupID == id);
             if (educator == null)
             {
                 return NotFound();
@@ -48,7 +46,6 @@ namespace itTrend.Controllers
         // GET: Educators/Create
         public IActionResult Create()
         {
-            ViewData["SubjectsID"] = new SelectList(_context.Subjects, "ID", "ID");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,SubjectsID,FullName,Photo,Phone")] Educator educator)
+        public async Task<IActionResult> Create([Bind("GroupID,ID,LastName,FirstName,Patronomic,Photo,PhoneNumber,SubjectID")] Educator educator)
         {
             if (ModelState.IsValid)
             {
@@ -65,12 +62,11 @@ namespace itTrend.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectsID"] = new SelectList(_context.Subjects, "ID", "ID", educator.SubjectsID);
             return View(educator);
         }
 
         // GET: Educators/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -82,7 +78,6 @@ namespace itTrend.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubjectsID"] = new SelectList(_context.Subjects, "ID", "ID", educator.SubjectsID);
             return View(educator);
         }
 
@@ -91,9 +86,9 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,SubjectsID,FullName,Photo,Phone")] Educator educator)
+        public async Task<IActionResult> Edit(int id, [Bind("GroupID,ID,LastName,FirstName,Patronomic,Photo,PhoneNumber,SubjectID")] Educator educator)
         {
-            if (id != educator.ID)
+            if (id != educator.GroupID)
             {
                 return NotFound();
             }
@@ -107,7 +102,7 @@ namespace itTrend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EducatorExists(educator.ID))
+                    if (!EducatorExists(educator.GroupID))
                     {
                         return NotFound();
                     }
@@ -118,12 +113,11 @@ namespace itTrend.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectsID"] = new SelectList(_context.Subjects, "ID", "ID", educator.SubjectsID);
             return View(educator);
         }
 
         // GET: Educators/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -131,8 +125,7 @@ namespace itTrend.Controllers
             }
 
             var educator = await _context.Educators
-                .Include(e => e.Subjects)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.GroupID == id);
             if (educator == null)
             {
                 return NotFound();
@@ -144,7 +137,7 @@ namespace itTrend.Controllers
         // POST: Educators/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var educator = await _context.Educators.FindAsync(id);
             _context.Educators.Remove(educator);
@@ -152,9 +145,9 @@ namespace itTrend.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EducatorExists(string id)
+        private bool EducatorExists(int id)
         {
-            return _context.Educators.Any(e => e.ID == id);
+            return _context.Educators.Any(e => e.GroupID == id);
         }
     }
 }

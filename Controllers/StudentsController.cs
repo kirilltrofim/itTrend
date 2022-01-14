@@ -26,7 +26,7 @@ namespace itTrend.Controllers
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -54,7 +54,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,StudentID,FullName,Phone,Photo")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace itTrend.Controllers
         }
 
         // GET: Students/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,StudentID,FullName,Phone,Photo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student)
         {
             if (id != student.ID)
             {
@@ -117,7 +117,7 @@ namespace itTrend.Controllers
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -137,7 +137,7 @@ namespace itTrend.Controllers
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var student = await _context.Students.FindAsync(id);
             _context.Students.Remove(student);
@@ -145,7 +145,7 @@ namespace itTrend.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(string id)
+        private bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.ID == id);
         }

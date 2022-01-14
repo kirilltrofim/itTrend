@@ -8,14 +8,18 @@ namespace itTrend.Models
 {
     public class Group
     {
-        public string ID { get; set; }
-        public int CourseID { get; set; }
+        public int ID { get; set; }
         public int Number { get; set; }
-        public DateTime StartYear { get; set; }
-        public string Specialization { get; set; }
+        public int StartYear { get; set; }
+        public string specialization { get; set; }
+        public string Educator { get; set; }
+        public int Course { get; set; }
 
-        public Educator Educator { get; set; }
-        public Course Course { get; set; }
-        public string FullNameID { get; set; }
+
+        public Course CourseID { get; set; }
+
+
+        public ICollection<Student> Students { get; set; }
+        public ICollection<Educator> Educators { get; set; }
     }
 }
