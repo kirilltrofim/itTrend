@@ -7,6 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using itTrend.Data;
 using itTrend.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web;
+using System.IO;
 
 namespace itTrend.Controllers
 {
@@ -64,6 +71,20 @@ namespace itTrend.Controllers
             }
             return View(educator);
         }
+
+        /*[HttpPost]
+        public ActionResult Index(IEnumerable<HttpPostedFileBase> fileUpload)
+        {
+            foreach (var file in fileUpload)
+            {
+                if (file == null) continue;
+                string path = AppDomain.CurrentDomain.BaseDirectory + "UploadedFiles/";
+                string filename = Path.GetFileName(file.FileName);
+                if (filename != null) file.SaveAs(Path.Combine(path, filename));
+            }
+
+            return RedirectToAction("Index");
+        }*/
 
         // GET: Educators/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -144,6 +165,7 @@ namespace itTrend.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool EducatorExists(int id)
         {

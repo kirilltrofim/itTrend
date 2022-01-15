@@ -12,6 +12,7 @@ namespace itTrend.Controllers
 {
     public class StudentsController : Controller
     {
+
         private readonly Context _context;
 
         public StudentsController(Context context)
@@ -64,6 +65,9 @@ namespace itTrend.Controllers
             }
             return View(student);
         }
+
+
+
 
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)

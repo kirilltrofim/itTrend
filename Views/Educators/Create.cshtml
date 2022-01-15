@@ -37,6 +37,15 @@
                 <input asp-for="Photo" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
+
+      @*      @using (Html.BeginForm("", "home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="file" name="fileUpload" /><br />
+                <br>
+                <input type="submit" name="Submit" id="SubmitSingle" value="Upload" />
+                <br>
+            }
+*@
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
