@@ -12,41 +12,25 @@ using System.Net.Http;
 using System.Web;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace itTrend.Controllers
 {
     public class EducatorsController : Controller
     {
+        IWebHostEnvironment _appEnvironment;
         private readonly Context _context;
 
-        public EducatorsController(Context context)
+        public EducatorsController(Context context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
-
-        /*[HttpPost]
-        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
-        {
-            if (uploadedFile != null)
-            {
-                // путь к папке Files
-                string path = "/Files/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await uploadedFile.CopyToAsync(fileStream);
-                }
-                FileModel file = new FileModel { Name = uploadedFile.FileName, Path = path };
-                _context.Files.Add(file);
-                _context.SaveChanges();
-            }
-
-            return RedirectToAction("Index");
-        }*/
 
         // GET: Educators
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Educators.ToListAsync());
         }
 
@@ -79,14 +63,27 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupID,ID,LastName,FirstName,Patronomic,Photo,PhoneNumber,SubjectID")] Educator educator)
+        public async Task<IActionResult> Create([Bind("GroupID,ID,LastName,FirstName,Patronomic,Photo,PhoneNumber,SubjectID")] Educator educator, IFormFile uploadedFile)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(educator);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            
+                if (ModelState.IsValid)
+                {
+                    _context.Add(educator);
+
+                    if (uploadedFile != null)
+                    {
+                        // путь к папке Files
+                        string path = "/Files/" + uploadedFile.FileName;
+                        // сохраняем файл в папку Files в каталоге wwwroot
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            uploadedFile.CopyTo(fileStream);
+                        }
+                        educator.Photo = path;
+                    }
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             return View(educator);
         }
 
