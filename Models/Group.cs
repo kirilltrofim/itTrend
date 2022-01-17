@@ -10,7 +10,7 @@ namespace itTrend.Models
     {
         public int ID { get; set; }
         public int Number { get; set; }
-        public int StartYear { get; set; }
+        public DateTime StartYear { get; set; }
         public string specialization { get; set; }
         public string Educator { get; set; }
         public int Course { get; set; }

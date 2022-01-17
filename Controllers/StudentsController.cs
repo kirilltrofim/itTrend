@@ -7,19 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using itTrend.Data;
 using itTrend.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace itTrend.Controllers
 {
     public class StudentsController : Controller
     {
 
+        IWebHostEnvironment _appEnvironment;
         private readonly Context _context;
 
-        public StudentsController(Context context)
+        public StudentsController(Context context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
-        }
-
+            _appEnvironment = appEnvironment;
+        } 
+        
+        
         // GET: Students
         public async Task<IActionResult> Index()
         {
@@ -55,18 +61,28 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student)
+        public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student, IFormFile uploadedFile)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(student);
+
+                if (uploadedFile != null)
+                {
+                    // путь к папке Files
+                    string path = "/Files/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        uploadedFile.CopyTo(fileStream);
+                    }
+                    student.Photo = path;
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
-
-
 
 
         // GET: Students/Edit/5
@@ -153,5 +169,7 @@ namespace itTrend.Controllers
         {
             return _context.Students.Any(e => e.ID == id);
         }
+
+
     }
 }

@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create">Добавить студента</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -46,8 +47,8 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
+            <img src="@Html.DisplayFor(modelItem => item.Photo)" width=50 alt="Фото">
+            </td> 
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Изменить</a> |
                 <a asp-action="Details" asp-route-id="@item.ID">Подробно</a> |

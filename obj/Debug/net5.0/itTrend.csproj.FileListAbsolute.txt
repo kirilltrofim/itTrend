@@ -169,4 +169,3 @@ C:\Users\kirilltrofim\source\repos\itTrend\obj\Debug\net5.0\Razor\Views\Subjects
 C:\Users\kirilltrofim\source\repos\itTrend\obj\Debug\net5.0\Razor\Views\Subjects\Delete.cshtml.g.cs
 C:\Users\kirilltrofim\source\repos\itTrend\obj\Debug\net5.0\Razor\Views\Subjects\Details.cshtml.g.cs
 C:\Users\kirilltrofim\source\repos\itTrend\obj\Debug\net5.0\Razor\Views\Subjects\Edit.cshtml.g.cs
-C:\Users\kirilltrofim\source\repos\itTrend\obj\Debug\net5.0\Razor\Views\Home\Students.cshtml.g.cs

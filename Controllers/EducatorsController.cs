@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using itTrend.Data;
 using itTrend.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using System.Web;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace itTrend.Controllers
 {
@@ -25,6 +23,26 @@ namespace itTrend.Controllers
         {
             _context = context;
         }
+
+        /*[HttpPost]
+        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
+        {
+            if (uploadedFile != null)
+            {
+                // путь к папке Files
+                string path = "/Files/" + uploadedFile.FileName;
+                // сохраняем файл в папку Files в каталоге wwwroot
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(fileStream);
+                }
+                FileModel file = new FileModel { Name = uploadedFile.FileName, Path = path };
+                _context.Files.Add(file);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }*/
 
         // GET: Educators
         public async Task<IActionResult> Index()
@@ -72,19 +90,6 @@ namespace itTrend.Controllers
             return View(educator);
         }
 
-        /*[HttpPost]
-        public ActionResult Index(IEnumerable<HttpPostedFileBase> fileUpload)
-        {
-            foreach (var file in fileUpload)
-            {
-                if (file == null) continue;
-                string path = AppDomain.CurrentDomain.BaseDirectory + "UploadedFiles/";
-                string filename = Path.GetFileName(file.FileName);
-                if (filename != null) file.SaveAs(Path.Combine(path, filename));
-            }
-
-            return RedirectToAction("Index");
-        }*/
 
         // GET: Educators/Edit/5
         public async Task<IActionResult> Edit(int? id)
