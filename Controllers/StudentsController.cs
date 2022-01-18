@@ -106,7 +106,7 @@ namespace itTrend.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,Patronomic,PhoneNumber,Photo")] Student student, IFormFile uploadedFile)
         {
             if (id != student.ID)
             {
@@ -117,6 +117,17 @@ namespace itTrend.Controllers
             {
                 try
                 {
+                    if (uploadedFile != null)
+                    {
+                        // путь к папке Files
+                        string path = "/Files/" + uploadedFile.FileName;
+                        // сохраняем файл в папку Files в каталоге wwwroot
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            uploadedFile.CopyTo(fileStream);
+                        }
+                        student.Photo = path;
+                    }
                     _context.Update(student);
                     await _context.SaveChangesAsync();
                 }

@@ -101,5 +101,4 @@ function drawGame() {
 
 let game = 0;
 let speed = 300;
-(score % 5 == 0) ?
-    game = setInterval(drawGame, speed = speed - 150) : game = setInterval(drawGame, speed);
+(score % 5 == 0) ? game = setInterval(drawGame, speed = speed - 150) : game = setInterval(drawGame, speed);
