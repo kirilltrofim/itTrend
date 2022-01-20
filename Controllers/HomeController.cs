@@ -10,23 +10,26 @@ using System.Web;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using itTrend.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace itTrend.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly Context _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Context context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Students.ToListAsync());
         }
 
         /*[HttpPost]

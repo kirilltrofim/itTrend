@@ -4,14 +4,53 @@
 
 <div class="text-center">
     <h1 class="display-4">Добро пожаловать на сайт </h1>
+    <br><br>
 </div>
 
-<body>
-    <canvas id="game" width="608" height="608"></canvas>
-    <script src="js/site.js"></script>
-</body>
+@model IEnumerable<itTrend.Models.Student>
 
-<div>
-    <h1>Чтобы начать играть, нажмите ← ↑ ↓ → на клавиатуре </h1>
-    <h1>Обновите страницу, для перезапуска игры </h1>
-</div>
+<h1>Студент</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Фамилия
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Отчество
+            </th>
+            <th>
+                Номер телефона
+            </th>
+            <th>
+                Фото
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronomic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Photo)" width=50 alt="Фото">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -56,6 +56,7 @@ namespace itTrend.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Number,StartYear,specialization,Educator,Course")] Group @group)
         {
+            ViewData["Course"] = new SelectList(_context.Courses, "ID", "Name");
             if (ModelState.IsValid)
             {
                 _context.Add(@group);
